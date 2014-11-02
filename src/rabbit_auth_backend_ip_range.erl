@@ -31,7 +31,7 @@ check_user_login(Username, _) ->
                backends     = [{?MODULE, undefined}]}}.
 
 check_vhost_access(#user{tags = Tags}, _VHostPath, Sock) ->
-    {ok, {Address, _Port}} = inet:sockname(Sock),
+    Address = extract_address(Sock),
 
     % filter out applicable masks
     case lists:filtermap(
@@ -50,10 +50,11 @@ check_masks(Address, Masks) ->
         fun(StrMask, true) ->
             {Mask, Bits} = compile_addrmask(StrMask),
             Addr = address_to_binary(Address, Bits),
-            % rabbit_log:info("Checking '~w' against '~w'~n", [Addr, Mask]),
             if
                 Addr == Mask -> true;
-                true -> false
+                true ->
+                    rabbit_log:info("Source IP ~w not matching mask ~w~n", [Addr, Mask]),
+                    false
             end;
 	   (_, false) -> false
         end, true, Masks).
@@ -65,6 +66,11 @@ check_resource_access(#user{}, #resource{}, _Permission) -> true.
 env(F) ->
     {ok, V} = application:get_env(rabbitmq_auth_backend_ip_range, F),
     V.
+
+extract_address(undefined) -> "::";
+extract_address(Sock) ->
+    {ok, {Address, _Port}} = inet:sockname(Sock),
+    Address.
 
 compile_addrmask(AddrMask) ->
     case string:tokens(binary_to_list(AddrMask), "/\\") of

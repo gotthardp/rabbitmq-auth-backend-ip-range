@@ -66,6 +66,6 @@ only. Other users will be able to login from any network.
 
 ## Build Instructions
 
-Download a patched RabbitMQ from [GitHub](https://github.com/gotthardp/rabbitmq-server/tree/improved_auth).
+Download a patched RabbitMQ from [GitHub](https://github.com/gotthardp/rabbitmq-server/tree/multi_authorization).
 
 Build the plug-in following the standard [Plugin Development Guide](https://www.rabbitmq.com/plugin-development.html).

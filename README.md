@@ -30,23 +30,27 @@ For example:
 ```
 {rabbit, [
     ...
-    {auth_backends, [{rabbit_auth_backend_internal, [rabbit_auth_backend_ip_range]}]}
+    {auth_backends, [{rabbit_auth_backend_internal, [rabbit_auth_backend_internal, rabbit_auth_backend_ip_range]}]}
 ]},
 ```
+This will use `rabbit_auth_backend_internal` for authentication. Authorization
+will be done not only by `rabbit_auth_backend_internal`, but also and by
+`rabbit_auth_backend_ip_range`.
+
 
 ### Setup the access control list
 
-Add the plug-in configuration section. You may use the following parameters:
+Add the plug-in configuration section. See
+[RabbitMQ Configuration](https://www.rabbitmq.com/configure.html) for more details.
 
- Key            | Documentation
--------------------------------------------------------------------------------
-`tag_masks`     | List of tuples `{tag, [<<"ip/mask">>, ...]}`. The *tag* \
-                  corresponds to user Tags; the *ip/mask* is a permitted network \
-                  mask.
-`default_masks` | Default IP network mask `[<<"ip/mask">>, ...]` used when the \
-                  user has none of the listed tags. Set this to `[<<"::0/0">>]` \
-                  to accept untagged users (default behaviour), \
-                  or to `[<<"::0/127">>]` to reject untagges users.
+You may use the following parameters:
+
+`tag_masks` --  List of tuples `{tag, [<<"ip/mask">>, ...]}`. The *tag*
+corresponds to user Tags; the *ip/mask* is a permitted network mask.
+
+`default_masks` -- Default IP network mask `[<<"ip/mask">>, ...]` used when the
+user has none of the listed tags. Set this to `[<<"::0/0">>]` to accept untagged
+users (default behaviour), or to `[<<"::0/127">>]` to reject untagges users.
 
 For example:
 ```
@@ -56,9 +60,9 @@ For example:
     {default_masks, [<<"::0/0">>]}
 ]},
 ```
+This will allow users with the tag `ip-private` to login from private networks
+only. Other users will be able to login from any network.
 
-See [RabbitMQ Configuration](https://www.rabbitmq.com/configure.html) for more
-details.
 
 ## Build Instructions
 

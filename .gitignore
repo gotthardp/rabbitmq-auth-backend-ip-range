@@ -1,4 +1,6 @@
 .eunit
+build
+dist
 deps
 *.o
 *.beam

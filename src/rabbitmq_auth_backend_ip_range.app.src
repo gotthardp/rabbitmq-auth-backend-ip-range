@@ -1,0 +1,11 @@
+%% -*- erlang -*-
+{application, rabbitmq_auth_backend_ip_range,
+ [{description, "RabbitMQ  client authorization based on source IP address"},
+  {vsn, "%%VSN%%"},
+  {modules, []},
+  {registered, []},
+  {mod, {rabbit_auth_backend_ip_range_app, []}},
+  {env, [{tag_masks,
+          [{'ip-private', [<<"::FFFF:192.168.0.0/112">>]}]},
+         {default_masks, [<<"::0/0">>]}]},
+  {applications, [kernel, stdlib]}]}.

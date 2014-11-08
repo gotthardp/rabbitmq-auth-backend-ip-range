@@ -44,19 +44,24 @@ check_vhost_access(#user{tags = Tags}, _Impl, _VHostPath, Sock) ->
         Else -> check_masks(Address, lists:flatten(Else))
     end.
 
+check_masks(undefined, _Masks) -> true; % allow internal access
 check_masks(Address, Masks) ->
-    lists:foldl(
-        fun(StrMask, true) ->
+    R = lists:foldl(
+        fun(StrMask, false) ->
             {Mask, Bits} = compile_addrmask(StrMask),
             Addr = address_to_binary(Address, Bits),
             if
                 Addr == Mask -> true;
-                true ->
-                    rabbit_log:info("Source IP ~w not matching mask ~w~n", [Addr, Mask]),
-                    false
+                true         -> false
             end;
-	   (_, false) -> false
-        end, true, Masks).
+	   (_, true) -> true
+        end, false, Masks),
+    if
+        R == false ->
+            rabbit_log:info("Address ~w not matching any of ~w~n", [Address, Masks]),
+            false;
+        true -> true
+    end.
 
 check_resource_access(#user{}, _Impl, #resource{}, _Permission) -> true.
 
@@ -66,7 +71,7 @@ env(F) ->
     {ok, V} = application:get_env(rabbitmq_auth_backend_ip_range, F),
     V.
 
-extract_address(undefined) -> "::";
+extract_address(undefined) -> undefined;
 extract_address(Sock) ->
     {ok, {Address, _Port}} = rabbit_net:sockname(Sock),
     Address.
@@ -87,6 +92,9 @@ compile_address(Addr) ->
         {ok, Address6} when size(Address6) == 8 -> {Address6, 128};
         {error, _} -> throw({error, einval})
     end.
+
+address_to_binary({B1, B2, B3, B4}, Bits) when Bits >= 32->
+    <<B1:8, B2:8, B3:8, B4:8>>;
 
 address_to_binary({B1, B2, B3, B4}, Bits) ->
     <<Subset:Bits/bitstring, _Others/bitstring>> = <<B1:8, B2:8, B3:8, B4:8>>,

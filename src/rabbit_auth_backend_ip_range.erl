@@ -18,18 +18,18 @@
 -include_lib("rabbit_common/include/rabbit.hrl").
 
 -export([description/0]).
--export([check_user_login/2, check_vhost_access/4, check_resource_access/4]).
+-export([check_user_login/2, check_vhost_access/3, check_resource_access/3]).
 
 description() ->
     [{name, <<"IP_Range">>},
      {description, <<"LDAP authentication / authorisation">>}].
 
 check_user_login(Username, _) ->
-    {ok, #user{username      = Username,
-               tags          = [],
-               authN_backend = ?MODULE}, undefined}.
+    {ok, #auth_user{username = Username,
+                    tags     = [],
+                    impl     = none}}.
 
-check_vhost_access(#user{tags = Tags}, _Impl, _VHostPath, Sock) ->
+check_vhost_access(#auth_user{tags = Tags}, _VHostPath, Sock) ->
     Address = extract_address(Sock),
 
     % filter out applicable masks
@@ -63,7 +63,7 @@ check_masks(Address, Masks) ->
         true -> true
     end.
 
-check_resource_access(#user{}, _Impl, #resource{}, _Permission) -> true.
+check_resource_access(#auth_user{}, #resource{}, _Permission) -> true.
 
 %%--------------------------------------------------------------------
 

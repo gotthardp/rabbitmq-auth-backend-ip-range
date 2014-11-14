@@ -13,21 +13,19 @@
 
 -module(rabbit_auth_backend_ip_range).
 
--behaviour(rabbit_auth_backend).
+-behaviour(rabbit_authz_backend).
 
 -include_lib("rabbit_common/include/rabbit.hrl").
 
 -export([description/0]).
--export([check_user_login/2, check_vhost_access/3, check_resource_access/3]).
+-export([user_login_authorization/1, check_vhost_access/3, check_resource_access/3]).
 
 description() ->
     [{name, <<"IP_Range">>},
      {description, <<"LDAP authentication / authorisation">>}].
 
-check_user_login(Username, _) ->
-    {ok, #auth_user{username = Username,
-                    tags     = [],
-                    impl     = none}}.
+user_login_authorization(_Username) ->
+    {ok, none}.
 
 check_vhost_access(#auth_user{tags = Tags}, _VHostPath, Sock) ->
     Address = extract_address(Sock),
@@ -58,7 +56,10 @@ check_masks(Address, Masks) ->
         end, false, Masks),
     if
         R == false ->
-            rabbit_log:info("Address ~w not matching any of ~w~n", [Address, Masks]),
+            rabbit_log:warning("Address ~s not matching any of [ ~s]~n",
+                [inet_parse:ntoa(Address),
+                lists:flatten(lists:foldr(fun(Mask, Acc) ->
+                    [io_lib:format("~s ", [Mask]) | Acc] end, [], Masks))]),
             false;
         true -> true
     end.

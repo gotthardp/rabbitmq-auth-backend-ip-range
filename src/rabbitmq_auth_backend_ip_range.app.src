@@ -1,7 +1,7 @@
 %% -*- erlang -*-
 {application, rabbitmq_auth_backend_ip_range,
  [{description, "RabbitMQ  client authorization based on source IP address"},
-  {vsn, "%%VSN%%"},
+  {vsn, "0.1.0"},
   {modules, []},
   {registered, []},
   {mod, {rabbit_auth_backend_ip_range_app, []}},

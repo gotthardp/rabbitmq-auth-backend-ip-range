@@ -66,6 +66,8 @@ only. Other users will be able to login from any network.
 
 ## Build Instructions
 
-Download a patched RabbitMQ from [GitHub](https://github.com/gotthardp/rabbitmq-server/tree/multi_authorization).
+This plug-in requires RabbitMQ 3.5, which has not been released yet. You need
+to use the latest [Nightly Build] (https://www.rabbitmq.com/nightly-builds.html)
+of RabbitMQ.
 
 Build the plug-in following the standard [Plugin Development Guide](https://www.rabbitmq.com/plugin-development.html).

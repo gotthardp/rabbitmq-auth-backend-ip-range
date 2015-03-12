@@ -29,6 +29,7 @@ user_login_authorization(_Username) ->
 
 check_vhost_access(#auth_user{tags = Tags}, _VHostPath, Sock) ->
     Address = extract_address(Sock),
+    % rabbit_log:info("Checking address ~s~n", [inet_parse:ntoa(Address)]),
 
     % filter out applicable masks
     case lists:filtermap(
@@ -52,7 +53,7 @@ check_masks(Address, Masks) ->
                 Addr == Mask -> true;
                 true         -> false
             end;
-	   (_, true) -> true
+           (_, true) -> true
         end, false, Masks),
     if
         R == false ->

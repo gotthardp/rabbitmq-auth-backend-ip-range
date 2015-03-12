@@ -66,8 +66,5 @@ only. Other users will be able to login from any network.
 
 ## Build Instructions
 
-This plug-in requires RabbitMQ 3.5, which has not been released yet. You need
-to use the latest [Nightly Build] (https://www.rabbitmq.com/nightly-builds.html)
-of RabbitMQ.
-
-Build the plug-in following the standard [Plugin Development Guide](https://www.rabbitmq.com/plugin-development.html).
+This plug-in requires RabbitMQ 3.5.0, or higher. Build the plug-in following the
+standard [Plugin Development Guide](https://www.rabbitmq.com/plugin-development.html).

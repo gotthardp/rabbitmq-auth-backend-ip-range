@@ -74,6 +74,9 @@ env(F) ->
     V.
 
 extract_address(undefined) -> undefined;
+% for native direct connections the address is set to unknown
+extract_address(#authz_socket_info{sockname={unknown, _Port}}) -> undefined;
+extract_address(#authz_socket_info{sockname={Address, _Port}}) -> Address;
 extract_address(Sock) ->
     {ok, {Address, _Port}} = rabbit_net:sockname(Sock),
     Address.

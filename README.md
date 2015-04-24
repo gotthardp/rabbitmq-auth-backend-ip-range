@@ -53,7 +53,8 @@ Add the plug-in configuration section. See
 You may use the following parameters:
 
 `tag_masks` --  List of tuples `{tag, [<<"ip/mask">>, ...]}`. The *tag*
-corresponds to user Tags; the *ip/mask* is a permitted network mask.
+corresponds to one of user [Tags](https://www.rabbitmq.com/management.html#permissions);
+the *ip/mask* is a permitted network mask of local (server) address.
 
 `default_masks` -- Default IP network mask `[<<"ip/mask">>, ...]` used when the
 user has none of the listed tags. Set this to `[<<"::0/0">>]` to accept untagged

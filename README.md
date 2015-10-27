@@ -1,6 +1,10 @@
 # RabbitMQ plug-in for client authorization based on source IP address
 
 ## History
+* 0.1.1 (Oct 27, 2015) Bugfix release.
+  * IPv4-mapped IPv6 addresses now match the respective IPv4 address.
+  * Added some debug logs to hunt the Issue #2.
+  * Authenticate against remote (client) address instead of local (server) address.
 * 0.1.0 (Nov 14, 2014) First release. Compatible with stable RabbitMQ 3.5.x only.
 
 ## Configuration
@@ -66,6 +70,10 @@ For example:
 ```
 This will allow users with the tag `ip-private` to login from private networks
 only. Other users will be able to login from any network.
+
+The IPv4 mask (e.g. 192.168.0.0) will match an IPv4 address only.
+The IPv4-mapped IPv6 mask (e.g. ::FFFF:192.168.0.0) will match both IPv4 and
+IPv6 addresses.
 
 
 ## Build Instructions

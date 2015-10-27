@@ -29,7 +29,6 @@ user_login_authorization(_Username) ->
 
 check_vhost_access(#auth_user{tags = Tags}, _VHostPath, Sock) ->
     Address = extract_address(Sock),
-    % rabbit_log:info("Checking address ~s~n", [inet_parse:ntoa(Address)]),
 
     % filter out applicable masks
     case lists:filtermap(
@@ -58,11 +57,12 @@ check_masks(Address, Masks) ->
     if
         R == false ->
             rabbit_log:warning("Address ~s not matching any of [ ~s]~n",
-                [inet_parse:ntoa(Address),
-                lists:flatten(lists:foldr(fun(Mask, Acc) ->
-                    [io_lib:format("~s ", [Mask]) | Acc] end, [], Masks))]),
+                [inet_parse:ntoa(Address), format_masks(Masks)]),
             false;
-        true -> true
+        true ->
+            rabbit_log:debug("Address ~s matching [ ~s]~n",
+                [inet_parse:ntoa(Address), format_masks(Masks)]),
+            true
     end.
 
 check_resource_access(#auth_user{}, #resource{}, _Permission) -> true.
@@ -77,6 +77,10 @@ extract_address(undefined) -> undefined;
 extract_address(Sock) ->
     {ok, {Address, _Port}} = rabbit_net:peername(Sock),
     Address.
+
+format_masks(Masks) ->
+    lists:flatten(lists:foldr(fun(Mask, Acc) ->
+        [io_lib:format("~s ", [Mask]) | Acc] end, [], Masks)).
 
 compile_addrmask(AddrMask) ->
     case string:tokens(binary_to_list(AddrMask), "/\\") of
@@ -95,11 +99,16 @@ compile_address(Addr) ->
         {error, _} -> throw({error, einval})
     end.
 
-address_to_binary({B1, B2, B3, B4}, Bits) when Bits >= 32->
+address_to_binary({B1, B2, B3, B4}, 32) ->
     <<B1:8, B2:8, B3:8, B4:8>>;
 
-address_to_binary({B1, B2, B3, B4}, Bits) ->
+address_to_binary({B1, B2, B3, B4}, Bits) when Bits < 32 ->
     <<Subset:Bits/bitstring, _Others/bitstring>> = <<B1:8, B2:8, B3:8, B4:8>>,
+    Subset;
+
+address_to_binary({B1, B2, B3, B4}, Bits) when Bits > 32 ->
+    % matching the IPv4-mapped IPv6 address
+    <<Subset:Bits/bitstring, _Others/bitstring>> = <<0:80, 16#FFFF:16, B1:8, B2:8, B3:8, B4:8>>,
     Subset;
 
 address_to_binary({W1, W2, W3, W4, W5, W6, W7, W8}, Bits) ->

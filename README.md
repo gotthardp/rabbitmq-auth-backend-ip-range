@@ -82,5 +82,5 @@ IPv6 addresses.
 
 ## Build Instructions
 
-This plug-in requires RabbitMQ 3.5.0, or higher. Build the plug-in following the
+This plug-in requires RabbitMQ 3.6.0, or higher. Build the plug-in following the
 standard [Plugin Development Guide](https://www.rabbitmq.com/plugin-development.html).

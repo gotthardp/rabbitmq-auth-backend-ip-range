@@ -13,13 +13,35 @@
 
 ## Configuration
 
+You need to modify the
+[rabbitmq.config](http://www.rabbitmq.com/configure.html#configuration-file).
+An example configuration file follows:
+```erlang
+[
+    {rabbit, [
+        {auth_backends, [{rabbit_auth_backend_internal,
+                          [rabbit_auth_backend_internal, rabbit_auth_backend_ip_range]
+                         }]
+        }
+    ]},
+    {rabbitmq_auth_backend_ip_range, [
+        {tag_masks,
+            [{'ip-private', [<<"::FFFF:192.168.0.0/112">>]}]},
+        {default_masks, [<<"::0/0">>]}
+    ]}
+].
+```
+See [RabbitMQ Configuration](https://www.rabbitmq.com/configure.html) for more
+details. The following sub-sections provide detailed explanation of the related
+configuration options.
+
 ### Install new authorization backend
 
 Add `rabbit_auth_backend_ip_range` to the list of `auth_backends`. RabbitMQ
 allows you to define alternative authentication and authorication plug-ins.
 
 You can say that modules `a1` **or** `a2` will be used to authenticate.
-```
+```erlang
 {rabbit, [
     ...
     {auth_backends, [a1, a2]}
@@ -27,7 +49,7 @@ You can say that modules `a1` **or** `a2` will be used to authenticate.
 ```
 
 You can also say that modules `z1` **and** `z2` will be used to authorize.
-```
+```erlang
 {rabbit, [
     ...
     {auth_backends, [{a1, [z1, z2]}]}
@@ -38,10 +60,13 @@ The `rabbit_auth_backend_ip_range` should be used for authorization only. It may
 be used with the `rabbit_auth_backend_internal` or `rabbit_auth_backend_ldap`.
 
 For example:
-```
+```erlang
 {rabbit, [
     ...
-    {auth_backends, [{rabbit_auth_backend_internal, [rabbit_auth_backend_internal, rabbit_auth_backend_ip_range]}]}
+    {auth_backends, [{rabbit_auth_backend_internal,
+                      [rabbit_auth_backend_internal, rabbit_auth_backend_ip_range]
+                     }]
+    }
 ]},
 ```
 This will use `rabbit_auth_backend_internal` for authentication. Authorization
@@ -51,8 +76,7 @@ will be done not only by `rabbit_auth_backend_internal`, but also and by
 
 ### Setup the access control list
 
-Add the plug-in configuration section. See
-[RabbitMQ Configuration](https://www.rabbitmq.com/configure.html) for more details.
+Add the `rabbitmq_auth_backend_ip_range` plug-in configuration section.
 
 You may use the following parameters:
 
@@ -65,7 +89,7 @@ user has none of the listed tags. Set this to `[<<"::0/0">>]` to accept untagged
 users (default behaviour), or to `[<<"::0/127">>]` to reject untagges users.
 
 For example:
-```
+```erlang
 {rabbitmq_auth_backend_ip_range, [
     {tag_masks,
         [{'ip-private', [<<"::FFFF:192.168.0.0/112">>]}]},

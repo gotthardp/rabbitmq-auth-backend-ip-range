@@ -86,13 +86,14 @@ format_masks(Masks) ->
         [io_lib:format("~s ", [Mask]) | Acc] end, [], Masks)).
 
 compile_addrmask(AddrMask) ->
-    case string:tokens(binary_to_list(AddrMask), "/\\") of
-        [Addr] ->
-            {ABin, ABits} = compile_address(Addr);
-        [Addr, Bits] ->
-            {ABin, _} = compile_address(Addr),
-            ABits = list_to_integer(Bits)
-    end,
+    {ABin, ABits} =
+        case string:tokens(binary_to_list(AddrMask), "/\\") of
+            [Addr] ->
+                compile_address(Addr);
+            [Addr, Bits] ->
+                {Addr2, _} = compile_address(Addr),
+                {Addr2, list_to_integer(Bits)}
+        end,
     {address_to_binary(ABin, ABits), ABits}.
 
 compile_address(Addr) ->

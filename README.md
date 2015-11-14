@@ -1,15 +1,14 @@
 # RabbitMQ plug-in for client authorization based on source IP address
 
 ## History
-* Future 0.2.0 (development version).
-  Compatible with [RabbitMQ Nightly Builds](http://www.rabbitmq.com/nightlies/rabbitmq-server).
+* 0.2.0 (Nov 14, 2015). Compatible with RabbitMQ 3.6.x.
   * Implement RabbitMQ [Issue 109](https://github.com/rabbitmq/rabbitmq-server/issues/109)
     fix for authorization of MQTT/STOMP connections.
 * 0.1.1 (Oct 27, 2015) Bugfix release.
   * IPv4-mapped IPv6 addresses now match the respective IPv4 address.
   * Added some debug logs to hunt the Issue #2.
   * Authenticate against remote (client) address instead of local (server) address.
-* 0.1.0 (Nov 14, 2014) First release. Compatible with stable RabbitMQ 3.5.x only.
+* 0.1.0 (Nov 14, 2014) First release. Compatible with RabbitMQ 3.5.x only.
 
 ## Configuration
 

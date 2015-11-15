@@ -12,3 +12,13 @@ ERLANG_MK_COMMIT = rabbitmq-tmp
 
 include rabbitmq-components.mk
 include erlang.mk
+
+# --------------------------------------------------------------------
+# Testing.
+# --------------------------------------------------------------------
+
+WITH_BROKER_SETUP_SCRIPTS := $(CURDIR)/test/setup-rabbit-test.sh
+WITH_BROKER_TEST_MAKEVARS := \
+        RABBITMQ_CONFIG_FILE=$(CURDIR)/test/rabbit-test
+WITH_BROKER_TEST_COMMANDS := \
+        eunit:test(rabbit_auth_tests,[verbose,{report,{eunit_surefire,[{dir,\"test\"}]}}])

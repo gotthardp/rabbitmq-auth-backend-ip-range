@@ -1,6 +1,8 @@
 PROJECT = rabbitmq_auth_backend_ip_range
 
-DEPS = amqp_client rabbit
+DEPS = amqp_client
+
+TEST_DEPS = rabbit
 
 DEP_PLUGINS = rabbit_common/mk/rabbitmq-plugin.mk
 

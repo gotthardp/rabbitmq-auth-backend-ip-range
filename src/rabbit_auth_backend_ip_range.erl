@@ -22,7 +22,7 @@
 
 description() ->
     [{name, <<"IP_Range">>},
-     {description, <<"LDAP authentication / authorisation">>}].
+     {description, <<"IP based client authorization">>}].
 
 user_login_authorization(_Username) ->
     {ok, none}.

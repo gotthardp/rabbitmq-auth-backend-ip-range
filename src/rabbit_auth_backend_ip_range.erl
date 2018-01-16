@@ -18,7 +18,7 @@
 -include_lib("rabbit_common/include/rabbit.hrl").
 
 -export([description/0]).
--export([user_login_authorization/1, check_vhost_access/3, check_resource_access/3]).
+-export([user_login_authorization/1, check_vhost_access/3, check_resource_access/3, check_topic_access/4]).
 
 description() ->
     [{name, <<"IP_Range">>},
@@ -66,6 +66,8 @@ check_masks(Address, Masks) ->
     end.
 
 check_resource_access(#auth_user{}, #resource{}, _Permission) -> true.
+
+check_topic_access(#auth_user{}, #resource{}, _Permission, _Context) -> true.
 
 %%--------------------------------------------------------------------
 

@@ -7,9 +7,8 @@ addons:
       - python3
 
 otp_release:
-  - R16B03-1
-  - 17.5
-  - 18.0
+  - 19.3
+  - 20.3
 
 script: make tests
 

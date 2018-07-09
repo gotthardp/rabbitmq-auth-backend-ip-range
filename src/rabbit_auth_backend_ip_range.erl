@@ -18,13 +18,17 @@
 -include_lib("rabbit_common/include/rabbit.hrl").
 
 -export([description/0]).
--export([user_login_authorization/1, check_vhost_access/3, check_resource_access/3, check_topic_access/4]).
+-export([user_login_authorization/1, user_login_authorization/2,
+         check_vhost_access/3, check_resource_access/3, check_topic_access/4]).
 
 description() ->
     [{name, <<"IP_Range">>},
      {description, <<"IP based client authorization">>}].
 
 user_login_authorization(_Username) ->
+    {ok, none}.
+
+user_login_authorization(_Username, _AuthProps) ->
     {ok, none}.
 
 check_vhost_access(#auth_user{tags = Tags}, _VHostPath, Sock) ->

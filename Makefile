@@ -1,6 +1,13 @@
 PROJECT = rabbitmq_auth_backend_ip_range
 PROJECT_DESCRIPTION = RabbitMQ IP Range Authentication Backend
 
+define PROJECT_ENV
+[
+	{tag_masks, [{'ip-private', [<<"::FFFF:192.168.0.0/112">>]}]},
+	{default_masks, [<<"::0/0">>]}
+]
+endef
+
 DEPS = amqp_client
 
 LOCAL_DEPS = inets

@@ -1,5 +1,7 @@
 # RabbitMQ plug-in for client authorization based on source IP address
 
+[![Build Status](https://travis-ci.org/gotthardp/rabbitmq-auth-backend-ip-range.svg?branch=master)](https://travis-ci.org/gotthardp/rabbitmq-auth-backend-ip-range)
+
 ## Configuration
 
 You need to modify the

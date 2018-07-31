@@ -1,12 +1,15 @@
 .sw?
 .*.sw?
 *.beam
-/.erlang.mk/
-/cover/
-/deps/
-/doc/
-/ebin/
-/logs/
-/plugins/
+.erlang.mk/
+cover/
+deps/
+doc/
+ebin/
+logs/
+plugins/
+.vagrant
 
-/rabbitmq_auth_backend_ip_range.d
+test/config_schema_SUITE_data/schema/
+
+rabbitmq_auth_backend_ip_range.d

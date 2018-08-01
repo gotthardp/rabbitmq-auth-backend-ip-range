@@ -1,5 +1,7 @@
 # RabbitMQ plug-in for client authorization based on source IP address
 
+[![Build Status](https://travis-ci.org/gotthardp/rabbitmq-auth-backend-ip-range.svg?branch=master)](https://travis-ci.org/gotthardp/rabbitmq-auth-backend-ip-range)
+
 ## Configuration
 
 You need to modify the
@@ -101,6 +103,7 @@ This plug-in requires RabbitMQ 3.6.0, or higher. Build the plug-in following the
 standard [Plugin Development Guide](https://www.rabbitmq.com/plugin-development.html).
 
 ## History
+* 3.7.0 (August 1, 2018). Compatible with RabbitMQ 3.7.x.
 * 0.2.0 (Dec 22, 2015). Compatible with RabbitMQ 3.6.x.
   * Implement RabbitMQ [Issue 109](https://github.com/rabbitmq/rabbitmq-server/issues/109)
     fix for authorization of MQTT/STOMP connections.

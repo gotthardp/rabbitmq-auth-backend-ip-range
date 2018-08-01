@@ -1,9 +1,20 @@
 PROJECT = rabbitmq_auth_backend_ip_range
+PROJECT_DESCRIPTION = RabbitMQ IP Range Authentication Backend
+
+define PROJECT_ENV
+[
+	{tag_masks, [{'ip-private', [<<"::FFFF:192.168.0.0/112">>]}]},
+	{default_masks, [<<"::0/0">>]}
+]
+endef
 
 DEPS = amqp_client
 
-TEST_DEPS = rabbit
+LOCAL_DEPS = inets
+DEPS = rabbit_common rabbit amqp_client
+TEST_DEPS = rabbitmq_ct_helpers rabbitmq_ct_client_helpers
 
+DEP_EARLY_PLUGINS = rabbit_common/mk/rabbitmq-early-plugin.mk
 DEP_PLUGINS = rabbit_common/mk/rabbitmq-plugin.mk
 
 # FIXME: Use erlang.mk patched for RabbitMQ, while waiting for PRs to be
@@ -14,13 +25,3 @@ ERLANG_MK_COMMIT = rabbitmq-tmp
 
 include rabbitmq-components.mk
 include erlang.mk
-
-# --------------------------------------------------------------------
-# Testing.
-# --------------------------------------------------------------------
-
-WITH_BROKER_SETUP_SCRIPTS := $(CURDIR)/test/setup-rabbit-test.sh
-WITH_BROKER_TEST_MAKEVARS := \
-        RABBITMQ_CONFIG_FILE=$(CURDIR)/test/rabbit-test
-WITH_BROKER_TEST_COMMANDS := \
-        eunit:test(rabbit_auth_tests,[verbose,{report,{eunit_surefire,[{dir,\"test\"}]}}])

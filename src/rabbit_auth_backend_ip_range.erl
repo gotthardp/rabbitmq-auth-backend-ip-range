@@ -31,8 +31,8 @@ user_login_authorization(_Username) ->
 user_login_authorization(_Username, _AuthProps) ->
     {ok, none}.
 
-check_vhost_access(#auth_user{tags = Tags}, _VHostPath, Sock) ->
-    Address = extract_address(Sock),
+check_vhost_access(#auth_user{tags = Tags}, _VHostPath, AuthzData) ->
+    Address = extract_address(AuthzData),
 
     % filter out applicable masks
     case lists:filtermap(
@@ -79,12 +79,9 @@ env(F) ->
     {ok, V} = application:get_env(rabbitmq_auth_backend_ip_range, F),
     V.
 
-extract_address(undefined) -> undefined;
-% for native direct connections the address is set to unknown
-extract_address(#authz_socket_info{peername={unknown, _Port}}) -> undefined;
-extract_address(#authz_socket_info{peername={Address, _Port}}) -> Address;
-extract_address(Sock) ->
-    {ok, {Address, _Port}} = rabbit_net:peername(Sock),
+extract_address(undefined) ->
+    undefined;
+extract_address(#{peeraddr := Address}) ->
     Address.
 
 format_masks(Masks) ->

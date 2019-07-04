@@ -19,7 +19,8 @@
 
 -export([description/0]).
 -export([user_login_authorization/1, user_login_authorization/2,
-         check_vhost_access/3, check_resource_access/3, check_topic_access/4]).
+         check_vhost_access/3, check_resource_access/3, check_topic_access/4,
+         state_can_expire/0]).
 
 description() ->
     [{name, <<"IP_Range">>},
@@ -72,6 +73,8 @@ check_masks(Address, Masks) ->
 check_resource_access(#auth_user{}, #resource{}, _Permission, _Context) -> true.
 
 check_topic_access(#auth_user{}, #resource{}, _Permission, _Context) -> true.
+
+state_can_expire() -> false.
 
 %%--------------------------------------------------------------------
 

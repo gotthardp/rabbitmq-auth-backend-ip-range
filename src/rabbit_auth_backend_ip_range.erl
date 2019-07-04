@@ -69,7 +69,7 @@ check_masks(Address, Masks) ->
             true
     end.
 
-check_resource_access(#auth_user{}, #resource{}, _Permission) -> true.
+check_resource_access(#auth_user{}, #resource{}, _Permission, _Context) -> true.
 
 check_topic_access(#auth_user{}, #resource{}, _Permission, _Context) -> true.
 

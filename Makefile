@@ -8,8 +8,6 @@ define PROJECT_ENV
 ]
 endef
 
-DEPS = amqp_client
-
 LOCAL_DEPS = inets
 DEPS = rabbit_common rabbit amqp_client
 TEST_DEPS = rabbitmq_ct_helpers rabbitmq_ct_client_helpers

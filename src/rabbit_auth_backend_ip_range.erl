@@ -47,6 +47,7 @@ check_vhost_access(#auth_user{tags = Tags}, _VHostPath, AuthzData) ->
     end.
 
 check_masks(undefined, _Masks) -> true; % allow internal access
+check_masks(unknown, _Masks) -> true; % allow internal access
 check_masks(Address, Masks) ->
     R = lists:foldl(
         fun(StrMask, false) ->
@@ -81,6 +82,13 @@ env(F) ->
 
 extract_address(undefined) ->
     undefined;
+extract_address(unknown) ->
+    unknown;
+% for native direct connections the address is set to unknown
+extract_address(#authz_socket_info{peername={unknown, _Port}}) ->
+    undefined;
+extract_address(#authz_socket_info{peername={Address, _Port}}) ->
+    Address;
 extract_address(#{peeraddr := Address}) ->
     Address.
 

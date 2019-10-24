@@ -31,8 +31,8 @@ user_login_authorization(_Username) ->
 user_login_authorization(_Username, _AuthProps) ->
     {ok, none}.
 
-check_vhost_access(#auth_user{tags = Tags}, _VHostPath, AuthzData) ->
-    Address = extract_address(AuthzData),
+check_vhost_access(#auth_user{tags = Tags}, _VHostPath, Sock) ->
+    Address = extract_address(Sock),
 
     % filter out applicable masks
     case lists:filtermap(
@@ -85,11 +85,10 @@ extract_address(undefined) ->
 extract_address(unknown) ->
     unknown;
 % for native direct connections the address is set to unknown
-extract_address(#authz_socket_info{peername={unknown, _Port}}) ->
-    undefined;
-extract_address(#authz_socket_info{peername={Address, _Port}}) ->
-    Address;
-extract_address(#{peeraddr := Address}) ->
+extract_address(#authz_socket_info{peername={unknown, _Port}}) -> undefined;
+extract_address(#authz_socket_info{peername={Address, _Port}}) -> Address;
+extract_address(Sock) ->
+    {ok, {Address, _Port}} = rabbit_net:peername(Sock),
     Address.
 
 format_masks(Masks) ->

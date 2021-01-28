@@ -4,7 +4,7 @@
 
 ## Supported RabbitMQ and Erlang Versions
 
-This plugin currently targets RabbitMQ 3.7.x and Erlang 20.3+.
+This plugin currently targets RabbitMQ 3.8.x and Erlang 21.3+. Please see the [Releases](https://github.com/gotthardp/rabbitmq-auth-backend-ip-range/releases) page for binary downloads.
 
 ## Binary Builds
 
@@ -111,6 +111,8 @@ This plug-in requires a [supported RabbitMQ release series](https://www.rabbitmq
 standard [Plugin Development Guide](https://www.rabbitmq.com/plugin-development.html).
 
 ## History
+
+Please see the [Releases](https://github.com/gotthardp/rabbitmq-auth-backend-ip-range/releases) page for binary downloads.
 
 Version | Date         | Erlang |  Notes
 ------- |------------- | -------| -----------------------

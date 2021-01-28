@@ -12,17 +12,18 @@ Binary builds are published as [GitHub releases](https://github.com/gotthardp/ra
 
 ## Configuration
 
-You need to modify the
-[rabbitmq.config](http://www.rabbitmq.com/configure.html#configuration-file).
+This plugin uses both [RabbitMQ configuration files](http://www.rabbitmq.com/configure.html#configuration-file),
+`rabbitmq.conf` and `advanced.config`.
+
 An example configuration file follows:
+
+``` ini
+auth_backends.1.authn = internal
+auth_backends.1.authz = rabbit_auth_backend_ip_range
+```
+
 ```erlang
 [
-    {rabbit, [
-        {auth_backends, [{rabbit_auth_backend_internal,
-                          [rabbit_auth_backend_internal, rabbit_auth_backend_ip_range]
-                         }]
-        }
-    ]},
     {rabbitmq_auth_backend_ip_range, [
         {tag_masks,
             [{'ip-private', [<<"::FFFF:192.168.0.0/112">>]}]},
@@ -34,31 +35,14 @@ See [RabbitMQ Configuration](https://www.rabbitmq.com/configure.html) for more
 details. The following sub-sections provide detailed explanation of the related
 configuration options.
 
-### Install new authorization backend
+### Using IP Range as an AuthZ Backend
 
-Add `rabbit_auth_backend_ip_range` to the list of `auth_backends`. RabbitMQ
-allows you to define alternative authentication and authorication plug-ins.
-
-You can say that modules `a1` **or** `a2` will be used to authenticate.
-```erlang
-{rabbit, [
-    ...
-    {auth_backends, [a1, a2]}
-]},
-```
-
-You can also say that modules `z1` **and** `z2` will be used to authorize.
-```erlang
-{rabbit, [
-    ...
-    {auth_backends, [{a1, [z1, z2]}]}
-]},
-```
 
 The `rabbit_auth_backend_ip_range` should be used for authorization only. It may
-be used with the `rabbit_auth_backend_internal` or `rabbit_auth_backend_ldap`.
+be used with the `rabbit_auth_backend_internal`, `rabbit_auth_backend_ldap`, or other options.
 
 For example:
+
 ```erlang
 {rabbit, [
     ...
@@ -68,16 +52,21 @@ For example:
     }
 ]},
 ```
-This will use `rabbit_auth_backend_internal` for authentication. Authorization
-will be done not only by `rabbit_auth_backend_internal`, but also and by
-`rabbit_auth_backend_ip_range`.
+
+``` ini
+auth_backends.1.authn = internal
+auth_backends.1.authz = rabbit_auth_backend_ip_range
+
+auth_backends.2.authz = internal
+```
+
+This will use the `internal` backend for authentication. `rabbit_auth_backend_ip_range` will be tried
+for authorization first, with a fallback to the standard `internal` database backend.
 
 
-### Setup the access control list
+### Controlling the IP Range Access Control List
 
-Add the `rabbitmq_auth_backend_ip_range` plug-in configuration section.
-
-You may use the following parameters:
+The plugin supports several paramters configurable via `advanced.config`:
 
 `tag_masks` --  List of tuples `{tag, [<<"ip/mask">>, ...]}`. The *tag*
 corresponds to one of user [Tags](https://www.rabbitmq.com/management.html#permissions);

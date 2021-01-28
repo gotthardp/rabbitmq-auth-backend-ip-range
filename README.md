@@ -43,16 +43,6 @@ be used with the `rabbit_auth_backend_internal`, `rabbit_auth_backend_ldap`, or 
 
 For example:
 
-```erlang
-{rabbit, [
-    ...
-    {auth_backends, [{rabbit_auth_backend_internal,
-                      [rabbit_auth_backend_internal, rabbit_auth_backend_ip_range]
-                     }]
-    }
-]},
-```
-
 ``` ini
 auth_backends.1.authn = internal
 auth_backends.1.authz = rabbit_auth_backend_ip_range

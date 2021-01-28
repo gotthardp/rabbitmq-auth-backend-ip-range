@@ -107,7 +107,7 @@ IPv6 addresses.
 
 [![Build Status](https://travis-ci.org/gotthardp/rabbitmq-auth-backend-ip-range.svg?branch=master)](https://travis-ci.org/gotthardp/rabbitmq-auth-backend-ip-range)
 
-This plug-in requires RabbitMQ 3.6.0, or higher. Build the plug-in following the
+This plug-in requires a [supported RabbitMQ release series](https://www.rabbitmq.com/versions.html). Build the plug-in following the
 standard [Plugin Development Guide](https://www.rabbitmq.com/plugin-development.html).
 
 ## History

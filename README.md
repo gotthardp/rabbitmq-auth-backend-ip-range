@@ -1,6 +1,6 @@
 # RabbitMQ plug-in for client authorization based on source IP address
 
-[![Build Status](https://travis-ci.org/gotthardp/rabbitmq-auth-backend-ip-range.svg?branch=master)](https://travis-ci.org/gotthardp/rabbitmq-auth-backend-ip-range)
+[![Build Status](https://github.com/gotthardp/rabbitmq-email/actions/workflows/main.yml/badge.svg)](https://github.com/gotthardp/rabbitmq-email/actions/new)
 
 ## Supported RabbitMQ and Erlang Versions
 
@@ -93,12 +93,13 @@ standard [Plugin Development Guide](https://www.rabbitmq.com/plugin-development.
 
 Please see the [Releases](https://github.com/gotthardp/rabbitmq-auth-backend-ip-range/releases) page for binary downloads.
 
-Version | Date         | Erlang |  Notes
-------- |------------- | -------| -----------------------
-`2.0.0` | `2019-10-24` | `21.3` | Compatible with RabbitMQ 3.8.0 or later
-`1.0.0` | `2019-10-24` | `20.3` | Compatible with RabbitMQ 3.7.x
-`3.7.14`| `2019-04-03` | `20.3` | Tag and release are deleted, use version `1.0.0`
-`3.7.0` | `2018-08-01` | `19.3` | Compatible with RabbitMQ 3.7.x. Tag and release are deleted. Use [this commit](https://github.com/gotthardp/rabbitmq-auth-backend-ip-range/commit/44061917c49d67bbeded6ba1b4370d98ff680215) and build with Erlang 19.3 if you need this version
-`0.2.0` | `2015-12-22` |        | Compatible with RabbitMQ 3.6.x. Implement RabbitMQ [Issue 109](https://github.com/rabbitmq/rabbitmq-server/issues/109) fix for authorization of MQTT/STOMP connections.
-`0.1.1` | `2015-10-27` |        | Bugfix release.<ul><li>IPv4-mapped IPv6 addresses now match the respective IPv4 address.</li><li>Added some debug logs to hunt the Issue #2.</li><li>Authenticate against remote (client) address instead of local (server) address.</li></ul>
-`0.1.0` | `2014-11-14` |        | First release. Compatible with RabbitMQ 3.5.x only.
+Version        | Date         | Erlang |  Notes
+-------------- |------------- | -------| -----------------------
+`2.0.0+rmq-39` | `2022-02-15` | `23.2` | Compatible with RabbitMQ 3.9.0 or later
+`2.0.0`        | `2019-10-24` | `21.3` | Compatible with RabbitMQ 3.8.0 or later
+`1.0.0`        | `2019-10-24` | `20.3` | Compatible with RabbitMQ 3.7.x
+`3.7.14`       | `2019-04-03` | `20.3` | Tag and release are deleted, use version `1.0.0`
+`3.7.0`        | `2018-08-01` | `19.3` | Compatible with RabbitMQ 3.7.x. Tag and release are deleted. Use [this commit](https://github.com/gotthardp/rabbitmq-auth-backend-ip-range/commit/44061917c49d67bbeded6ba1b4370d98ff680215) and build with Erlang 19.3 if you need this version
+`0.2.0`        | `2015-12-22` |        | Compatible with RabbitMQ 3.6.x. Implement RabbitMQ [Issue 109](https://github.com/rabbitmq/rabbitmq-server/issues/109) fix for authorization of MQTT/STOMP connections.
+`0.1.1`        | `2015-10-27` |        | Bugfix release.<ul><li>IPv4-mapped IPv6 addresses now match the respective IPv4 address.</li><li>Added some debug logs to hunt the Issue #2.</li><li>Authenticate against remote (client) address instead of local (server) address.</li></ul>
+`0.1.0`        | `2014-11-14` |        | First release. Compatible with RabbitMQ 3.5.x only.

@@ -1,6 +1,6 @@
 # RabbitMQ plug-in for client authorization based on source IP address
 
-[![Build Status](https://github.com/gotthardp/rabbitmq-email/actions/workflows/main.yml/badge.svg)](https://github.com/gotthardp/rabbitmq-email/actions/new)
+![Build Status](https://github.com/gotthardp/rabbitmq-auth-backend-ip-range/actions/workflows/main.yml/badge.svg?branch=master)
 
 ## Supported RabbitMQ and Erlang Versions
 
